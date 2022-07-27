@@ -1,0 +1,185 @@
+import unittest
+import time
+from selenium import webdriver 
+from selenium.webdriver.common.by import By
+from webdriver_manager.chrome import ChromeDriverManager
+
+class TestRegistration(unittest.TestCase): 
+    
+    def setUp(self): 
+        self.browser = webdriver.Chrome(ChromeDriverManager().install())
+
+        def TC01_test_a_success_regist(self): 
+        # steps reproduce
+            browser = self.browser #buka web browser
+            browser.get("http://barru.pythonanywhere.com/daftar") # buka situs
+            time.sleep(3)
+            browser.find_element(By.ID,"name_register").send_keys("Ronaldo") # input field username
+            time.sleep(1)
+            browser.find_element(By.ID,"email_register").send_keys("ronaldo123@demo.com") # input field email
+            time.sleep(1)
+            browser.find_element(By.ID,"password_register").send_keys("abcd1234") # input field password
+            time.sleep(1)
+            browser.find_element(By.ID,"signUp").click() # click on button sign up
+            time.sleep(1)
+
+        # validasi
+            response_data = browser.find_element(By.ID,"swal2-title").text
+            response_message = browser.find_element(By.ID,"swal2-content").text
+
+            self.assertIn('berhasil', response_data)
+            self.assertEqual(response_message, 'created user!')
+
+        def TC02_negative_test_case_all_field_is_empty(self): 
+        # steps reproduce
+            browser = self.browser #buka web browser
+            browser.get("http://barru.pythonanywhere.com/daftar") # buka situs
+            time.sleep(3)
+            browser.find_element(By.ID,"name_register").send_keys("") # input field username
+            time.sleep(1)
+            browser.find_element(By.ID,"email_register").send_keys("") # input field email
+            time.sleep(1)
+            browser.find_element(By.ID,"password_register").send_keys("") # input field password
+            time.sleep(1)
+            browser.find_element(By.ID,"signUp").click() # click on button sign up
+            time.sleep(1)
+
+        # validasi
+            response_data = browser.find_element(By.ID,"swal2-title").text
+            response_message = browser.find_element(By.ID,"swal2-content").text
+
+            self.assertIn('tidak boleh kosong', response_data)
+            self.assertEqual(response_message, 'Gagal Registrasi')
+        
+        def TC03_negative_test_case_field_username_is_empty(self): 
+        # steps reproduce
+            browser = self.browser #buka web browser
+            browser.get("http://barru.pythonanywhere.com/daftar") # buka situs
+            time.sleep(3)
+            browser.find_element(By.ID,"name_register").send_keys("") # input field username
+            time.sleep(1)
+            browser.find_element(By.ID,"email_register").send_keys("messi123@demo.com") # input field email
+            time.sleep(1)
+            browser.find_element(By.ID,"password_register").send_keys("abcd1234") # input field password
+            time.sleep(1)
+            browser.find_element(By.ID,"signUp").click() # click on button sign up
+            time.sleep(1)
+
+        # validasi
+            response_data = browser.find_element(By.ID,"swal2-title").text
+            response_message = browser.find_element(By.ID,"swal2-content").text
+
+            self.assertIn('tidak boleh kosong', response_data)
+            self.assertEqual(response_message, 'Gagal Registrasi')
+
+        def TC_04_negative_test_case_field_email_is_empty(self): 
+        # steps reproduce
+            browser = self.browser #buka web browser
+            browser.get("http://barru.pythonanywhere.com/daftar") # buka situs
+            time.sleep(3)
+            browser.find_element(By.ID,"name_register").send_keys("Lewandoski") # input field username
+            time.sleep(1)
+            browser.find_element(By.ID,"email_register").send_keys("") # input field email
+            time.sleep(1)
+            browser.find_element(By.ID,"password_register").send_keys("abcd1234") # input field password
+            time.sleep(1)
+            browser.find_element(By.ID,"signUp").click() # click on button sign up
+            time.sleep(1)
+
+        # validasi
+            response_data = browser.find_element(By.ID,"swal2-title").text
+            response_message = browser.find_element(By.ID,"swal2-content").text
+
+            self.assertIn('tidak boleh kosong', response_data)
+            self.assertEqual(response_message, 'Gagal Registrasi')
+
+        def TC_05_negative_test_case_field_password_is_empty(self): 
+        # steps reproduce
+            browser = self.browser #buka web browser
+            browser.get("http://barru.pythonanywhere.com/daftar") # buka situs
+            time.sleep(3)
+            browser.find_element(By.ID,"name_register").send_keys("Lewandoski") # input field username
+            time.sleep(1)
+            browser.find_element(By.ID,"email_register").send_keys("lewi123@demo.com") # input field email
+            time.sleep(1)
+            browser.find_element(By.ID,"password_register").send_keys("") # input field password
+            time.sleep(1)
+            browser.find_element(By.ID,"signUp").click() # click on button sign up
+            time.sleep(1)
+
+        # validasi
+            response_data = browser.find_element(By.ID,"swal2-title").text
+            response_message = browser.find_element(By.ID,"swal2-content").text
+
+            self.assertIn('tidak boleh kosong', response_data)
+            self.assertEqual(response_message, 'Gagal Registrasi')
+
+        def TC_06_negative_test_case_field_username_invalid(self): 
+        # steps reproduce
+            browser = self.browser #buka web browser
+            browser.get("http://barru.pythonanywhere.com/daftar") # buka situs
+            time.sleep(3)
+            browser.find_element(By.ID,"name_register").send_keys("VanBasten@#$%<") # input field username
+            time.sleep(1)
+            browser.find_element(By.ID,"email_register").send_keys("basten123@demo.com") # input field email
+            time.sleep(1)
+            browser.find_element(By.ID,"password_register").send_keys("abcd1234") # input field password
+            time.sleep(1)
+            browser.find_element(By.ID,"signUp").click() # click on button sign up
+            time.sleep(1)
+
+        # validasi
+            response_data = browser.find_element(By.ID,"swal2-title").text
+            response_message = browser.find_element(By.ID,"swal2-content").text
+
+            self.assertIn('tidak valid', response_data)
+            self.assertEqual(response_message, 'Tidak boleh mengandung symbol')
+
+        def TC_07_negative_test_case_field_password_invalid(self): 
+        # steps reproduce
+            browser = self.browser #buka web browser
+            browser.get("http://barru.pythonanywhere.com/daftar") # buka situs
+            time.sleep(3)
+            browser.find_element(By.ID,"name_register").send_keys("VanBuyten") # input field username
+            time.sleep(1)
+            browser.find_element(By.ID,"email_register").send_keys("buyten123@demo.com") # input field email
+            time.sleep(1)
+            browser.find_element(By.ID,"password_register").send_keys("abcd@#$%") # input field password
+            time.sleep(1)
+            browser.find_element(By.ID,"signUp").click() # click on button sign up
+            time.sleep(1)
+
+        # validasi
+            response_data = browser.find_element(By.ID,"swal2-title").text
+            response_message = browser.find_element(By.ID,"swal2-content").text
+
+            self.assertIn('tidak valid', response_data)
+            self.assertEqual(response_message, 'Tidak boleh mengandung symbol')
+
+        def TC_08_negative_test_case_email_existing(self): 
+        # steps reproduce
+            browser = self.browser #buka web browser
+            browser.get("http://barru.pythonanywhere.com/daftar") # buka situs
+            time.sleep(3)
+            browser.find_element(By.ID,"name_register").send_keys("Ronaldo") # input field username
+            time.sleep(1)
+            browser.find_element(By.ID,"email_register").send_keys("ronaldo123@demo.com") # input field email
+            time.sleep(1)
+            browser.find_element(By.ID,"password_register").send_keys("abcd1234") # input field password
+            time.sleep(1)
+            browser.find_element(By.ID,"signUp").click() # click on button sign up
+            time.sleep(1)
+
+        # validasi
+            response_data = browser.find_element(By.ID,"swal2-title").text
+            response_message = browser.find_element(By.ID,"swal2-content").text
+
+            self.assertIn('tidak valid', response_data)
+            self.assertEqual(response_message, 'Tidak boleh mengandung symbol')
+
+
+        def tearDown(self): 
+            self.browser.close() 
+
+if __name__ == "__main__": 
+    unittest.main()
